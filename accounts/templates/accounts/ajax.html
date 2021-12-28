@@ -1,0 +1,80 @@
+<script>
+    $('#search').click(function(e){
+        op="";
+        //console.log("Button Clicked");
+        var product=$('#search-bar').val();
+        // console.log(product);
+        if(product==""){
+            window.alert('Query Not Matched');
+        }
+       else{
+            $('search-bar').val('');
+            mydata={
+                'product_name':product
+            }
+            $.ajax({
+                url : "{% url 'search_product' %}",
+                method : 'GET',
+                data : mydata,
+                success : function(data){
+                    x=data.product_list;
+                    //console.log(data.product_list);
+                    if(data.product_list.length!=0){
+                        for(i=0;i<data.product_list.length;i++){
+                            op+="<a class='display-5 text-center text-primary' href="+data.product_list[i].id+" > "+data.product_list[i].title+" </a><hr>"
+                        }
+                        $("#root").html(op);
+                        op="";
+                    }else{
+                        $("#root").html('<p class="display-6 text-danger lead">No Product Matching Your Query</p>')
+                    }
+                }
+            }) 
+       }
+
+    });
+
+    {% comment %} $('.plus-cart').click(function(e){
+        e.preventDefault();
+        var id = $(this).attr('pid').toString();
+        console.log(id);
+        amount=$("#total_amount").attr('data-sid');
+        console.log(amount);
+        $.ajax({
+            type:'GET',
+            url:'{% url "pluscart" %}',
+            data:{
+                prod_id:id,
+                amount:amount
+            },
+            success:function(data){
+                //console.log(data);
+                $("#total_amount").text(data.amount);
+                $("#quantity").text(data.quantity);
+                amount=$("#total_amount").attr('data-sid',data.amount);
+            }
+        })
+    });
+    $('.minus-cart').click(function(e){
+        e.preventDefault();
+        console.log("minus button clicked");
+        var id = $(this).attr('pid').toString();
+        console.log(id);
+        amount=$('#total_amount').attr('data-sid');
+        console.log(amount);
+        mydata={
+            prod_id:id,
+            amount:amount
+        }
+        $.ajax({
+            type:'GET',
+            url : '{% url "minuscart" %}',
+            data : mydata,
+            success:function(data){
+                $("#total_amount").text(data.amount);
+                $("#quantity").text(data.quantity);
+                $("#total_amount").attr('data-sid',data.amount);
+            }
+        })
+    }) {% endcomment %}
+</script>

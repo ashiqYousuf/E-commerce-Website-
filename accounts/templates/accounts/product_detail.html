@@ -1,0 +1,33 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}{{product.title}}{% endblock title %}
+
+{% block content %}
+
+ <div class="container col-sm-10 mb-5 mt-5">
+     <div class="card shadow">
+         <div class="row">
+            <div class="col-sm-5">
+                <img src="{{product.image.url}}" alt="Product Image" class='img-thumbnail item-img img-fluid'>
+            </div>
+            <div class="col-sm-7 mt-3">
+                <h2 class='fw-bolder ps-2 mt-2'>Category : {{product.category}}</h2>
+                {% comment %} CART BUTTON IMP FUNCTIONALITY (Whole Crux lies Here) {% endcomment %}
+                <form {% if not request.user.is_authenticated %} action="{% url 'login' %}" {% else %} action="{% url 'add-to-cart' %}" {% endif %} class='d-inline'>
+                    <input type="hidden" name="prod_id" value="{{product.title}}" id='prod_id'>
+                    <button class='btn btn-sm btn-success' type='submit' style='position:absolute;right:4px;top:5px;'>Cart</button>
+                </form>
+                <h2 class='fw-bolder ps-2'>Product Name : {{product.title}}</h2>
+                <p class="lead px-3 text-justify" style='text-align:justify;'>
+                    {{product.description}}
+                </p>
+                <span>
+                    <h1 class='ps-2'>Price <span class='ms-3 text-decoration-line-through'>Rs {{product.price}}</span>  <span style='right:5px;position:absolute;'>Rs {{sp}}</span></h1>
+                </span>
+                
+            </div>
+         </div>
+     </div>
+ </div>
+
+{% endblock content %}

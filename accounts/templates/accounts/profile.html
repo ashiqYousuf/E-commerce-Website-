@@ -1,0 +1,94 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+ 
+ <div class="container mx-8 mt-4 text-center">
+     {% for msg in messages %}
+     <p class="lead text-success">{{msg}}</p>
+     {% endfor %}
+ </div>
+
+ <div class="container col-sm-6 mt-5">
+     <div class="card">
+        <a href="{% url 'add_address' %}" class="btn btn-sm btn-info mt-2 addr forget-pass" style='position: absolute; right:7px;'>Add Address</a>
+         <h3 class='text-center border-bottom border-primary display-4 lead text-dark'>{{request.user|title}} Profile</h3>
+         
+         <div class="card-body profile-card">
+             <div class="row">
+                 <div class="col-sm-2">
+                     Username
+                 </div>
+                 <div class="col-sm-4"></div>
+                 <div class="col-sm-6">
+                     {{request.user.username|title}}
+                 </div>
+             </div>
+
+             <div class="row mt-3">
+                <div class="col-sm-2">
+                    First Name
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-6">
+                    {{request.user.get_short_name|title}}
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-2">
+                    Full Name
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-6">
+                    {{request.user.get_full_name|title}}
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-2">
+                    Email ID
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-6">
+                    {{request.user.email}}
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-2">
+                    Staff Status
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-6">
+                    {% if request.user.is_superuser %} <i class="fa fa-2x fa-check" aria-hidden="true"></i>
+                    {% else %} <i class="fa fa-2x fa-times" aria-hidden="true"></i>
+                    {% endif %}
+                </div>
+            </div>
+         </div>
+     </div>
+ </div>
+
+
+ <div class="container mb-5">
+     <h3 class='text-center display-5 border-bottom border-primary mt-4'>{{request.user|title}} Address</h3>
+     <div class="row">
+         {% for addr in addresses %}
+          <div class="col-sm-4 mt-3 mx-auto mb-3 card">
+              {% comment %} ADDRESS SELECTION {% endcomment %}
+              <span>
+                <input style='height:35px;width:35px;position:absolute;right:6px;top:5px;' type="radio" name="addr-select" id='addr-select' data-sid="{{addr.id}}">
+              </span>
+
+              <p class="lead">Locality : {{addr.locality}}</p>
+              <p class="lead">City : {{addr.city}}</p>
+              <p class="lead">State : {{addr.state}}</p>
+              <p class="lead">Pincode : {{addr.pincode}}</p>
+          </div>
+         {% endfor %}
+     </div>
+ </div>
+
+{% endblock content %}

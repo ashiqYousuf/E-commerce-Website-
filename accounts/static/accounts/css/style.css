@@ -1,0 +1,59 @@
+.p-img{
+    height: 250px;
+    width: 300px;
+}
+
+.more{
+    border-radius: 17px;
+}
+
+.azure{
+    background-color: azure;
+}
+
+.item-img{
+    height: 400px;
+    width: 400px;
+}
+
+.cart:hover{
+    font-weight: bolder;
+}
+
+.sign-btn{
+    border-radius: 15px;
+}
+.sign-btn:hover{
+    color: white;
+    font-weight: bold;
+}
+
+.nav-link:hover{
+    font-weight: bolder;
+}
+
+.login:hover{
+    font-weight: bold;
+}
+
+.login{
+    border-radius: 20px;
+}
+.form-control{
+    border-radius: 18px;
+}
+
+.reset-pass-btn{
+    border-radius: 18px;
+}
+
+.forget-pass:hover{
+    font-weight: bolder;
+}
+
+.profile-card{
+    background-color:snow;
+}
+.addr{
+    border-radius: 25px;
+}

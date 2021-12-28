@@ -1,0 +1,32 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+
+ <div class="col-sm-3 p-2 card mx-auto">
+     <h3 class='text-center text-primary mb-3 mt-5'>User Login</h3>
+     <form action="" method="POST" novalidate>
+         {% csrf_token %}
+         {% for fm in form %}
+          <div class="form-group mb-4 ms-2 me-2">
+            {% if fm.name == 'username' %} <i class="fa fa-user icon"></i>
+            {% elif fm.name == 'password' %} <i class="fa fa-key icon"></i> {% endif %}
+
+            {{fm.label_tag}} {{fm}} <small class="text-danger fw-bolder">{{fm.errors|striptags}}</small>
+          </div>
+         {% endfor %}
+         <div class="text-center">
+             <input type="submit" value="Login" class='col-sm-12 px-5 login text-dark btn btn-outline-success'>
+             <a href="{% url 'password_reset' %}" class='text-primary mt-3 d-block forget-pass text-decoration-none'>Forgotten Password</a>
+             <a href='{% url "signup" %}' class='col-sm-12 mt-3 px-5 login btn text-dark btn-outline-secondary'>Create New Account</a>
+         </div>
+         {% if form.non_field_errors %}
+          {% for er in form.non_field_errors %}
+           <p class="text-danger fw-bolder mt-3">{{er}}</p>
+          {% endfor %}
+         {% endif %}
+     </form>
+ </div>
+
+{% endblock content %}

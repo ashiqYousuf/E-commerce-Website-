@@ -1,0 +1,25 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Add Address{% endblock title %}
+
+{% block content %}
+
+ <div class="container col-sm-4 mx-auto mt-4">
+     <p class='display-5 text-center border-bottom border-dark text-success'>Add Address</p>
+     <form action="" method="POST" novalidate class='card p-3'>
+         {% csrf_token %}
+         {% for fm in form %}
+          <div class="form-group mb-3">
+              {{fm.label_tag}}  {{fm}} <small class="text-danger mt-2 fw-bolder">{{fm.errors|striptags}}</small>
+          </div>
+         {% endfor %}
+         <input type="submit" value="Add" class='btn btn-outline-dark text-primary col-sm-12 addr forget-pass'>
+         {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+           <p class="text-danger mt-3 fw-bolder">{{error}}</p>
+          {% endfor %}
+         {% endif %}
+     </form>
+ </div>
+
+{% endblock content %}

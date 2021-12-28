@@ -1,0 +1,73 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block title %}Buy Now{% endblock title %}
+
+{% block content %}
+
+ <div class="container mt-5 mb-5 mx-auto">
+     <h3 class='display-4 lead text-center text-success'>Your Saved Items</h3>
+     
+     {% for c in carts %}
+      <div class="col-sm-8 mt-4 mx-auto">
+          <div class="card">
+              <div class="row">
+                  <div class="col-sm-2">
+                      <img src="{{c.product.image.url}}" class='img-fluid img-thumbnail' height='110px' width='120px' alt="">
+                  </div>
+                  <div class="col-sm-6">
+                      <h2 class='display-6 lead'>{{c.product.title}}</h2>
+                       {% with ans=c.product.price %}
+                        {% with temp=ans|div:10 %}
+                        <p class="h1">Price : {{ans|sub:temp}}</p>
+                        {% endwith %}
+                       {% endwith %}
+                       <a href="{% url 'remove_item' c.product.id %}" class='btn btn-sm btn-warning mb-1 ms-2'>Remove Item</a>
+                  </div>
+                                {% comment %} PLUS & MINUS ICONS {% endcomment %}
+                    <div class="col-sm-4 p-1 mt-2">
+                        <label for="quantity" class='fw-bolder p-2'>Quantity</label>
+                        <a  pid="{{c.product.id}}" class="minus-cart btn-sm btn">
+                            <i class='fas fa-minus-circle fa-lg'></i>
+                        </a>
+                        <span class='lead' id='quantity'>{{c.qty}}</span>
+                        <a  pid="{{c.product.id}}" class="plus-cart btn btn-sm">
+                        <i class='fas fa-plus-circle fa-lg'></i>
+                    </a>
+                    </div>
+              </div>
+
+          </div>
+      </div>
+     {% endfor %}
+     {% if flag%}
+<div class="container p-4 mb-5 mt-5">
+   <div class="text-center mx-auto card mx-auto col-sm-4">
+       <h2 class='pt-5'>Shipping Amount : {{shipping_amount}} </h2>
+       <h2 class='' id='total_amount' data-sid="{{total_amount}}">Total Amount : {{total_amount}} </h2>
+   </div>
+   <div class="row mt-4">
+    {% for addr in addresses %}
+       <div class="col-sm-4 shadow p-4 mt-3 mx-auto card">
+           <form action="{% url 'checkout' %}">
+                <input type="hidden" name="address-id" value="{{addr.id}}">
+                <h3>Locality : {{addr.locality}}</h3>
+                <h3>City : {{addr.city}}</h3>
+                <h3>State : {{addr.state}}</h3>
+               <input type="submit" value="checkout" class='btn btn-secondary'>
+           </form>
+       </div>
+       {% endfor %}
+   </div>
+   
+</div>
+ {% else %}
+  <div class="container text-center mx-auto mt-5 mb-5 mx-auto">
+      <p class="lead display-6 mb-4 text-center">You have no Products in Your Cart</p>
+      <i class="fas fa-10x fa-cart-plus"></i>
+  </div>
+{% endif %}
+ </div>
+
+
+{% endblock content %}
